@@ -8,6 +8,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 from fresh_android_xml import read_ui_xml
 import re
@@ -18,7 +19,7 @@ import xml.etree.ElementTree as ET
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--serial', required=True)
-parser.add_argument('--adb', default=shutil.which('adb') or str(Path.home() / 'Library/Android/sdk/platform-tools/adb'))
+parser.add_argument('--adb', default=shutil.which('adb') or str(Path(os.environ.get('ANDROID_HOME', str(Path.home() / 'Library/Android/sdk'))) / 'platform-tools/adb'))
 parser.add_argument('--output', type=Path, default=Path(__file__).resolve().parents[1] / 'evidence/local-process-restoration')
 args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
